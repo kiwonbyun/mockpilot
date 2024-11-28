@@ -1,0 +1,37 @@
+{
+  "name": "mockmate",
+  "version": "0.0.1",
+  "private": false,
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "description": "api mock data maker for developer's coworker",
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch"
+  },
+  "peerDependencies": {
+    "msw": "^2.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "@types/react": "^18.0.0",
+    "msw": "^2.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "tsup": "^8.3.5",
+    "typescript": "^5.0.0"
+  },
+  "keywords": [
+    "msw",
+    "mocking",
+    "mock"
+  ],
+  "author": "kiwonbyun",
+  "license": "ISC"
+}
