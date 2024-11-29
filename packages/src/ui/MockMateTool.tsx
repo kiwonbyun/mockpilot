@@ -1,5 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { HttpMethod, HttpStatus, MockMate } from "../core/types";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTrigger,
+} from "@/src/components/ui/drawer";
 
 function MockMateTool() {
   const mockMateInstance = useRef<MockMate | null>(null);
@@ -44,7 +50,17 @@ function MockMateTool() {
   }
 
   return (
-    <>
+    <div className="mockmate">
+      <Drawer direction="right" modal={false}>
+        <DrawerTrigger asChild>
+          <button>sad</button>
+        </DrawerTrigger>
+        <DrawerContent className="w-[550px] bg-white">
+          <div>
+            <div>asd</div>
+          </div>
+        </DrawerContent>
+      </Drawer>
       <div>
         <input value={url} onChange={(e) => setUrl(e.target.value)} />
         <textarea
@@ -60,7 +76,7 @@ function MockMateTool() {
           return <li key={mock.id}>{mock.id}</li>;
         })}
       </ul>
-    </>
+    </div>
   );
 }
 
