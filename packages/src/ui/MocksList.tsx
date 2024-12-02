@@ -1,5 +1,6 @@
 import { Drawer } from "vaul";
 import { MockState } from "../core/types";
+import DeleteIcon from "./DeleteIcon";
 
 interface MocksListProps {
   mocks: MockState[];
@@ -15,10 +16,43 @@ function MocksList({ mocks, handleRemove }: MocksListProps) {
         <Drawer.Content data-mm-drawer-content>
           <div data-mm-drawer-content-wrapper>
             <Drawer.Title>Mocks List</Drawer.Title>
-            <ul>
+            <ul data-mock-list>
               {mocks.map((mock) => (
-                <li key={mock.id} onClick={() => handleRemove(mock.id)}>
-                  {mock.id}
+                <li data-mock-item key={mock.id}>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "4px",
+                      alignItems: "center",
+                    }}
+                  >
+                    <button
+                      data-method-badge
+                      data-method-badge-value={mock.method}
+                    >
+                      {mock.method?.toUpperCase()}
+                    </button>
+                    <span>{mock.url}</span>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "4px",
+                      alignItems: "center",
+                    }}
+                  >
+                    <button data-mm-delay-badge>{`${mock.delay}ms`}</button>
+                    {mock.status && mock.status >= 400 && (
+                      <button data-mm-error-badge>error</button>
+                    )}
+                    <button
+                      data-mm-delete-badge
+                      style={{ cursor: "pointer" }}
+                      onClick={() => handleRemove(mock.id)}
+                    >
+                      <DeleteIcon />
+                    </button>
+                  </div>
                 </li>
               ))}
             </ul>

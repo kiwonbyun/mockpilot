@@ -1,5 +1,6 @@
 :root {
   --initial-transform: calc(100% + 8px);
+  --button-border: 1px solid gainsboro;
 }
 
 :where([data-mm-drawer-overlay]) {
@@ -75,7 +76,7 @@
 
 :where([data-mm-input]) {
   padding: 10px 16px;
-  border: 1px solid gainsboro;
+  border: var(--button-border);
   border-radius: 8px;
   background-color: white;
   font-size: 16px;
@@ -92,7 +93,7 @@
 
 :where([data-mm-textarea]) {
   padding: 6px 8px;
-  border: 1px solid gainsboro;
+  border: var(--button-border);
   border-radius: 8px;
   font-size: 12px;
   resize: none;
@@ -105,7 +106,7 @@
 
 :where([data-mm-last-button]) {
   background-color: inherit;
-  border: 1px solid gainsboro;
+  border: var(--button-border);
   padding: 12px 16px;
   border-radius: 8px;
   font-size: 16px;
@@ -119,4 +120,58 @@
 }
 :where([data-mm-last-button]:active) {
   transform: translateY(1px);
+}
+
+:where([data-mock-list]) {
+  list-style: none;
+  padding: 0px;
+}
+:where([data-mock-item]) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: var(--button-border);
+}
+:where([data-mock-item]:hover) {
+  background-color: rgba(255, 160, 122, 0.3);
+}
+
+:where([data-method-badge]) {
+  padding: 3px 6px;
+  border: var(--button-border);
+  border-radius: 4px;
+}
+
+:where([data-method-badge][data-method-badge-value="get"]) {
+  background-color: lightgreen;
+}
+:where([data-method-badge][data-method-badge-value="post"]) {
+  background-color: lightblue;
+}
+:where([data-method-badge][data-method-badge-value="delete"]) {
+  background-color: lightpink;
+}
+:where([data-method-badge][data-method-badge-value="put"]) {
+  background-color: lightyellow;
+}
+:where([data-method-badge][data-method-badge-value="patch"]) {
+  background-color: lightslategray;
+}
+:where([data-mm-delay-badge]) {
+  background-color: rgba(255, 255, 0, 0.2);
+  border: none;
+  padding: 3px 6px;
+  border-radius: 4px;
+}
+
+:where([data-mm-error-badge]) {
+  background-color: rgba(255, 0, 0, 0.1);
+  border: none;
+  padding: 3px 6px;
+  border-radius: 4px;
+}
+:where([data-mm-delete-badge]) {
+  border: none;
+  background-color: inherit;
 }

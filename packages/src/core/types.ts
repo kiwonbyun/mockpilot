@@ -16,7 +16,7 @@ export interface MockConfig {
   url: string;
   method?: HttpMethod;
   status?: HttpStatus;
-  delay?: number;
+  delay: number;
   response?: any;
 }
 

@@ -59,7 +59,7 @@ class MockMateImpl implements MockMate {
           if (mock.status === null) {
             return passthrough();
           } else {
-            return HttpResponse.json(JSON.parse(mock.response), {
+            return HttpResponse.json(mock.response, {
               status: mock.status,
             });
           }
