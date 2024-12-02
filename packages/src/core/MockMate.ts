@@ -36,7 +36,7 @@ class MockMateImpl implements MockMate {
       isActive: true,
       method: config.method || "get",
       url: config.url,
-      status: config.status || 200,
+      status: config.status,
       delay: config.delay || 0,
       response: config.response,
     };
@@ -56,13 +56,13 @@ class MockMateImpl implements MockMate {
             await delay(mock.delay);
           }
 
-          if (mock.response !== undefined && mock.response !== null) {
-            return HttpResponse.json(mock.response, {
+          if (mock.status === null) {
+            return passthrough();
+          } else {
+            return HttpResponse.json(JSON.parse(mock.response), {
               status: mock.status,
             });
           }
-
-          return passthrough();
         });
       });
 
@@ -83,6 +83,13 @@ class MockMateImpl implements MockMate {
     if (mock) {
       mock.isActive = true;
       this.mocks.set(id, mock);
+      this.updateWorker();
+    }
+  }
+  remove(id: string) {
+    const mock = this.mocks.get(id);
+    if (mock) {
+      this.mocks.delete(id);
       this.updateWorker();
     }
   }

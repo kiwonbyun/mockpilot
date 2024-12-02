@@ -1,5 +1,6 @@
 export type HttpMethod = "get" | "post" | "put" | "delete" | "patch";
 export type HttpStatus =
+  | null
   | 200
   | 201
   | 400
@@ -30,5 +31,6 @@ export interface MockMate {
   getMocks: () => MockState[];
   enable: (id: string) => void;
   disable: (id: string) => void;
+  remove: (id: string) => void;
   reset: () => void;
 }

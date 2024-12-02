@@ -1,46 +1,122 @@
-@tailwind utilities;
-
-.mockmate {
-  --background: 0 0% 100%;
-  --foreground: 222.2 47.4% 11.2%;
-  --muted: 210 40% 96.1%;
-  --muted-foreground: 215.4 16.3% 46.9%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 222.2 47.4% 11.2%;
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
-  --card: 0 0% 100%;
-  --card-foreground: 222.2 47.4% 11.2%;
-  --primary: 222.2 47.4% 11.2%;
-  --primary-foreground: 210 40% 98%;
-  --secondary: 210 40% 96.1%;
-  --secondary-foreground: 222.2 47.4% 11.2%;
-  --accent: 210 40% 96.1%;
-  --accent-foreground: 222.2 47.4% 11.2%;
-  --destructive: 0 100% 50%;
-  --destructive-foreground: 210 40% 98%;
-  --ring: 215 20.2% 65.1%;
-  --radius: 0.5rem;
+:root {
+  --initial-transform: calc(100% + 8px);
 }
 
-.mockmate.dark {
-  --background: 224 71% 4%;
-  --foreground: 213 31% 91%;
-  --muted: 223 47% 11%;
-  --muted-foreground: 215.4 16.3% 56.9%;
-  --accent: 216 34% 17%;
-  --accent-foreground: 210 40% 98%;
-  --popover: 224 71% 4%;
-  --popover-foreground: 215 20.2% 65.1%;
-  --border: 216 34% 17%;
-  --input: 216 34% 17%;
-  --card: 224 71% 4%;
-  --card-foreground: 213 31% 91%;
-  --primary: 210 40% 98%;
-  --primary-foreground: 222.2 47.4% 1.2%;
-  --secondary: 222.2 47.4% 11.2%;
-  --secondary-foreground: 210 40% 98%;
-  --destructive: 0 63% 31%;
-  --destructive-foreground: 210 40% 98%;
-  --ring: 216 34% 17%;
+:where([data-mm-drawer-overlay]) {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+:where([data-mm-drawer-content]) {
+  position: fixed;
+  right: 0.5rem;
+  top: 0.5rem;
+  bottom: 0.5rem;
+  z-index: 10;
+  outline: none;
+  width: 550px;
+  display: flex;
+}
+
+:where([data-mm-drawer-content-wrapper]) {
+  background-color: white;
+  height: 100%;
+  width: 100%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  padding: 0px 16px;
+}
+
+:where([data-mm-config-section]) {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+:where([data-mm-method-button]) {
+  background-color: inherit;
+  border-radius: 8px;
+  padding: 10px 16px;
+  width: 100%;
+  border: 1px solid gainsboro;
+}
+
+:where([data-mm-method-button][data-button-selected="true"]) {
+  background-color: orange;
+  color: black;
+}
+
+:where([data-mm-method-button]:hover) {
+  background-color: orange;
+  opacity: 0.5;
+}
+
+:where([data-mm-method-button]:active) {
+  transform: translateY(1px);
+}
+
+:where([data-mm-label-wrapper]) {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+:where([data-mm-label]) {
+  font-size: 16px;
+  font-weight: 700;
+  min-width: fit-content;
+  color: #333;
+  display: flex;
+  justify-content: space-between;
+}
+
+:where([data-mm-input]) {
+  padding: 10px 16px;
+  border: 1px solid gainsboro;
+  border-radius: 8px;
+  background-color: white;
+  font-size: 16px;
+}
+:where([data-mm-input][data-mm-input-error="true"]) {
+  background-color: rgba(255, 0, 0, 0.2);
+}
+
+:where([data-mm-input]:focus) {
+  outline: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.05),
+    0 0 0 2px rgba(255, 165, 0, 0.3), 0 -1px 2px rgba(255, 255, 255, 0.8) inset;
+}
+
+:where([data-mm-textarea]) {
+  padding: 6px 8px;
+  border: 1px solid gainsboro;
+  border-radius: 8px;
+  font-size: 12px;
+  resize: none;
+  height: 150px;
+}
+:where([data-mm-textarea]:disabled) {
+  cursor: not-allowed;
+  background-color: lightgray;
+}
+
+:where([data-mm-last-button]) {
+  background-color: inherit;
+  border: 1px solid gainsboro;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 16px;
+}
+:where([data-mm-submit]) {
+  background-color: #2563eb;
+  color: white;
+}
+:where([data-mm-last-button]:hover) {
+  opacity: 0.8;
+}
+:where([data-mm-last-button]:active) {
+  transform: translateY(1px);
 }

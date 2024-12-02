@@ -12,9 +12,6 @@ export default defineConfig({
   splitting: true,
   minify: true,
   injectStyle: true,
-  loader: {
-    ".css": "css",
-  },
   esbuildOptions(options) {
     options.jsx = "automatic";
   },

@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "pnpm -r build",
-    "dev:website": "pnpm --filter website dev"
+    "dev:website": "pnpm --filter website dev",
+    "dev:all": "pnpm --parallel --filter=website --filter=mockmate dev"
   },
   "keywords": [],
   "author": "",
