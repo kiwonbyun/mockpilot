@@ -10,7 +10,9 @@ interface MocksListProps {
 function MocksList({ mocks, handleRemove }: MocksListProps) {
   return (
     <Drawer.NestedRoot direction="right" data-drawer-root>
-      <Drawer.Trigger>{`View All Mocks.. (${mocks?.length})`}</Drawer.Trigger>
+      <Drawer.Trigger
+        data-mm-nested-trigger
+      >{`View All Mocks.. (${mocks?.length})`}</Drawer.Trigger>
       <Drawer.Portal>
         <Drawer.Overlay data-mm-drawer-overlay />
         <Drawer.Content data-mm-drawer-content>
@@ -41,6 +43,7 @@ function MocksList({ mocks, handleRemove }: MocksListProps) {
                       alignItems: "center",
                     }}
                   >
+                    {!mock.status && <button data-mm-pass-badge>pass</button>}
                     <button data-mm-delay-badge>{`${mock.delay}ms`}</button>
                     {mock.status && mock.status >= 400 && (
                       <button data-mm-error-badge>error</button>

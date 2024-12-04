@@ -7,7 +7,8 @@ function App() {
 
   const handleApi = async () => {
     const res = await fetch("https://fake-api.com/users");
-    console.log(await res.json());
+    const result = await res?.json();
+    console.log(result);
   };
   return (
     <>

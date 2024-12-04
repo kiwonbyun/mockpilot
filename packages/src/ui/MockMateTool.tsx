@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { HttpMethod, HttpStatus, MockMate, MockState } from "../core/types";
 import { Drawer } from "vaul";
 import MocksList from "./MocksList";
+import Logo from "./Logo";
 
 const METHOD = ["get", "post", "put", "delete", "patch"] as const;
 const RESPONSE_STATUS = [
@@ -12,13 +13,14 @@ const RESPONSE_STATUS = [
 
 function MockMateTools() {
   const mockMateInstance = useRef<MockMate | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
   const [isMount, setIsMount] = useState<boolean>(false);
   const [url, setUrl] = useState<string>("");
   const [method, setMethod] = useState<HttpMethod>("get");
   const [delay, setDelay] = useState<number>(0);
   const [status, setStatus] = useState<HttpStatus>(null);
   const [mockRes, setMockRes] = useState<string>("");
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<{ field: string | null }>({ field: null });
   const [mocks, setMocks] = useState<MockState[]>([]);
 
   const updateMocks = () => {
@@ -41,17 +43,34 @@ function MockMateTools() {
   const handleAddMock = async () => {
     if (!mockMateInstance.current) return;
     if (!url.length) {
-      setError(true);
+      setError({ field: "url" });
       return;
     }
+
+    let parsedResponse = "";
+    if (mockRes.length) {
+      try {
+        const validJsonString = mockRes
+          .replace(/'/g, '"')
+          .replace(/([{,]\s*)(\w+):/g, '$1"$2":');
+
+        parsedResponse = JSON.parse(validJsonString);
+      } catch (e) {
+        console.error("Invalid JSON format:", e);
+        setError({ field: "response" });
+        // 에러 처리 로직 추가
+        return;
+      }
+    }
+
     mockMateInstance.current.mock({
       url,
       method,
       delay,
       status,
-      response: mockRes,
+      response: parsedResponse,
     });
-    setError(false);
+    setError({ field: null });
     updateMocks();
     // setUrl("");
   };
@@ -80,8 +99,10 @@ function MockMateTools() {
 
   return (
     <div className="mockmate">
-      <Drawer.Root direction="right" data-drawer-root>
-        <Drawer.Trigger>Open MockMate</Drawer.Trigger>
+      <Drawer.Root direction="right" data-drawer-root onOpenChange={setIsOpen}>
+        <Drawer.Trigger data-mm-drawer-trigger data-mm-open={isOpen}>
+          <Logo />
+        </Drawer.Trigger>
         <Drawer.Portal>
           <Drawer.Overlay data-mm-drawer-overlay />
           <Drawer.Content data-mm-drawer-content>
@@ -110,7 +131,7 @@ function MockMateTools() {
                   <input
                     id="endpoint"
                     data-mm-input
-                    data-mm-input-error={error}
+                    data-mm-input-error={error.field === "url"}
                     type="text"
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
@@ -150,7 +171,8 @@ function MockMateTools() {
                   <label data-mm-label>Response Body</label>
                   <textarea
                     data-mm-textarea
-                    placeholder='{"key": "value"}'
+                    data-mm-input-error={error.field === "response"}
+                    placeholder='{ key: "value" }'
                     disabled={status === null}
                     value={mockRes}
                     onChange={(e) => setMockRes(e.target.value)}

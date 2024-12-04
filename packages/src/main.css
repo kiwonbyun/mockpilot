@@ -3,6 +3,25 @@
   --button-border: 1px solid gainsboro;
 }
 
+:where([data-mm-drawer-trigger]) {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  cursor: pointer;
+  z-index: 9999;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+  width: 60px;
+  background-color: inherit;
+  border: none;
+  outline: none;
+}
+:where([data-mm-drawer-trigger]:hover) {
+  opacity: 0.8;
+}
+:where([data-mm-drawer-trigger][data-mm-open="true"]) {
+  visibility: hidden;
+}
 :where([data-mm-drawer-overlay]) {
   position: fixed;
   inset: 0;
@@ -99,6 +118,9 @@
   resize: none;
   height: 150px;
 }
+:where([data-mm-textarea][data-mm-input-error="true"]) {
+  background-color: rgba(255, 0, 0, 0.2);
+}
 :where([data-mm-textarea]:disabled) {
   cursor: not-allowed;
   background-color: lightgray;
@@ -126,6 +148,15 @@
   list-style: none;
   padding: 0px;
 }
+
+:where([data-mm-nested-trigger]) {
+  background-color: inherit;
+  font-size: 14px;
+  border: var(--button-border);
+  padding: 16px 0px;
+  cursor: pointer;
+}
+
 :where([data-mock-item]) {
   display: flex;
   align-items: center;
@@ -158,6 +189,14 @@
 :where([data-method-badge][data-method-badge-value="patch"]) {
   background-color: lightslategray;
 }
+
+:where([data-mm-pass-badge]) {
+  background-color: rgba(6, 121, 229, 0.2);
+  border: none;
+  padding: 3px 6px;
+  border-radius: 4px;
+}
+
 :where([data-mm-delay-badge]) {
   background-color: rgba(255, 255, 0, 0.2);
   border: none;
