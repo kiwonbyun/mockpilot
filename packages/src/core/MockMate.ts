@@ -46,6 +46,7 @@ class MockMateImpl implements MockMate {
   }
 
   private updateWorker() {
+    this.worker.resetHandlers();
     const handlers = Array.from(this.mocks.values())
       .filter((mock) => mock.isActive)
       .map((mock) => {
@@ -56,10 +57,27 @@ class MockMateImpl implements MockMate {
             await delay(mock.delay);
           }
 
-          if (mock.status === null) {
+          if (!mock.status) {
             return passthrough();
+          } else if (mock.status >= 400) {
+            const errorBody = {
+              message: `${mock.status} error occurred`,
+              ok: false,
+              data: mock.response,
+              status: mock.status,
+            };
+            return HttpResponse.json(errorBody, {
+              status: mock.status,
+              statusText: `HTTP Error ${mock.status}`,
+            });
           } else {
-            return HttpResponse.json(mock.response, {
+            const successBody = {
+              message: `${mock.status} success`,
+              ok: true,
+              data: mock.response,
+              status: mock.status,
+            };
+            return HttpResponse.json(successBody, {
               status: mock.status,
             });
           }

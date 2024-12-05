@@ -17,11 +17,28 @@
   outline: none;
 }
 :where([data-mm-drawer-trigger]:hover) {
-  opacity: 0.8;
+  opacity: 1;
 }
 :where([data-mm-drawer-trigger][data-mm-open="true"]) {
   visibility: hidden;
 }
+:where([data-mm-drawer-trigger][data-mm-count-badge]) {
+  position: absolute;
+  top: 0;
+  right: 2px;
+  background-color: red;
+  width: 10px;
+  height: 10px;
+  padding: 4px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 10px;
+  opacity: 1;
+}
+
 :where([data-mm-drawer-overlay]) {
   position: fixed;
   inset: 0;

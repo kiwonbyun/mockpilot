@@ -1,39 +1,47 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { toast } from "@b-origin/ming-toast";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const fakeUrl = "https://fake-api.com/users";
+  const [res, setRes] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleApi = async () => {
-    const res = await fetch("https://fake-api.com/users");
-    const result = await res?.json();
-    console.log(result);
+    try {
+      setLoading(true);
+      const res = await fetch(fakeUrl);
+      const result = await res?.json();
+      if (!result.ok) {
+        throw new Error(result.message);
+      }
+      setRes(JSON.stringify(result.data));
+      toast("요청 성공!!");
+    } catch (err) {
+      setRes(null);
+      if (err instanceof Error) {
+        toast(err.message);
+      } else {
+        toast("알 수 없는 에러가 발생했습니다.");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
   return (
-    <>
-      <button onClick={handleApi}>api요청</button>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+      }}
+    >
+      <button onClick={handleApi} style={{ width: "200px", height: "200px" }}>
+        {loading ? "loading...." : `가짜 url api 요청`}
+      </button>
+      {!!res && <span>{res}</span>}
+    </div>
   );
 }
 

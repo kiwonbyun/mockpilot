@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@b-origin/ming-toast": "^1.2.7",
     "mockmate": "workspace:*",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"

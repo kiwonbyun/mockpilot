@@ -22,6 +22,7 @@ function MockMateTools() {
   const [mockRes, setMockRes] = useState<string>("");
   const [error, setError] = useState<{ field: string | null }>({ field: null });
   const [mocks, setMocks] = useState<MockState[]>([]);
+  const mocksBadgeCount = mocks.length > 99 ? "99+" : mocks.length;
 
   const updateMocks = () => {
     if (mockMateInstance.current) {
@@ -30,13 +31,15 @@ function MockMateTools() {
   };
 
   const initMockMate = async () => {
-    try {
-      const { mockmate } = await import("../core/MockMate");
-      await mockmate.start();
-      mockMateInstance.current = mockmate;
-      setIsMount(true);
-    } catch (error) {
-      console.error("Failed to initialize MockMate:", error);
+    if (process.env.NODE_ENV === "development") {
+      try {
+        const { mockmate } = await import("../core/MockMate");
+        await mockmate.start();
+        mockMateInstance.current = mockmate;
+        setIsMount(true);
+      } catch (error) {
+        console.error("Failed to initialize MockMate:", error);
+      }
     }
   };
 
@@ -101,7 +104,12 @@ function MockMateTools() {
     <div className="mockmate">
       <Drawer.Root direction="right" data-drawer-root onOpenChange={setIsOpen}>
         <Drawer.Trigger data-mm-drawer-trigger data-mm-open={isOpen}>
-          <Logo />
+          <Logo isActive={mocks.length > 0} />
+          {!!mocksBadgeCount && (
+            <div data-mm-drawer-trigger data-mm-count-badge>
+              {mocksBadgeCount}
+            </div>
+          )}
         </Drawer.Trigger>
         <Drawer.Portal>
           <Drawer.Overlay data-mm-drawer-overlay />
