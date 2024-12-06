@@ -1,14 +1,18 @@
 import { http, HttpResponse, delay, passthrough } from "msw";
 import { setupWorker } from "msw/browser";
-import type { MockConfig, MockMate, MockState } from "./types";
+import type { MockConfig, MockMate, MockState, Subscriber } from "./types";
 
 class MockMateImpl implements MockMate {
   private worker;
   private mocks: Map<string, MockState>;
+  private STORAGE_KEY: string;
+  private subscribers: Subscriber[];
 
   constructor() {
     this.worker = setupWorker();
     this.mocks = new Map();
+    this.STORAGE_KEY = window.location.href;
+    this.subscribers = [];
   }
 
   async start() {
@@ -20,13 +24,28 @@ class MockMateImpl implements MockMate {
             console.warn("MockMate initialization warning:", error);
           }
         });
+
+      const storedRawData = localStorage.getItem(this.STORAGE_KEY);
+      if (storedRawData) {
+        const storedData = JSON.parse(storedRawData);
+        if (Array.isArray(storedData) && !!storedData.length) {
+          storedData.forEach((storedMock) => {
+            this.mocks.set(storedMock.id, storedMock);
+          });
+          this.updateWorker();
+        }
+      }
     } else {
       console.warn("MockMate should only be used in development environment");
     }
   }
 
-  private generateMockId(config: MockConfig): string {
-    return `${config.method || "get"}-${config.url}`;
+  subscribe(subscriber: (mocks: MockState[]) => void) {
+    this.subscribers.push(subscriber);
+    return () => {
+      const index = this.subscribers.indexOf(subscriber);
+      this.subscribers.splice(index, 1);
+    };
   }
 
   mock(config: MockConfig) {
@@ -43,48 +62,6 @@ class MockMateImpl implements MockMate {
 
     this.mocks.set(id, mockState);
     this.updateWorker();
-  }
-
-  private updateWorker() {
-    this.worker.resetHandlers();
-    const handlers = Array.from(this.mocks.values())
-      .filter((mock) => mock.isActive)
-      .map((mock) => {
-        const method = mock.method || "get";
-        return http[method](mock.url, async () => {
-          // 지연 시간 적용
-          if (mock.delay) {
-            await delay(mock.delay);
-          }
-
-          if (!mock.status) {
-            return passthrough();
-          } else if (mock.status >= 400) {
-            const errorBody = {
-              message: `${mock.status} error occurred`,
-              ok: false,
-              data: mock.response,
-              status: mock.status,
-            };
-            return HttpResponse.json(errorBody, {
-              status: mock.status,
-              statusText: `HTTP Error ${mock.status}`,
-            });
-          } else {
-            const successBody = {
-              message: `${mock.status} success`,
-              ok: true,
-              data: mock.response,
-              status: mock.status,
-            };
-            return HttpResponse.json(successBody, {
-              status: mock.status,
-            });
-          }
-        });
-      });
-
-    this.worker.use(...handlers);
   }
 
   disable(id: string) {
@@ -119,6 +96,40 @@ class MockMateImpl implements MockMate {
 
   getMocks(): MockState[] {
     return Array.from(this.mocks.values());
+  }
+
+  private generateMockId(config: MockConfig): string {
+    return `${config.method || "get"}-${config.url}`;
+  }
+
+  private saveMocksToLocalStorage() {
+    const currentMocks = Array.from(this.mocks.values());
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(currentMocks));
+  }
+
+  private updateWorker() {
+    this.worker.resetHandlers();
+    const handlers = Array.from(this.mocks.values())
+      .filter((mock) => mock.isActive)
+      .map((mock) => this.createHandler(mock));
+
+    this.worker.use(...handlers);
+    this.saveMocksToLocalStorage();
+    this.subscribers.forEach((listener) => {
+      listener(Array.from(this.mocks.values()));
+    });
+  }
+
+  private createHandler(mock: MockState) {
+    const method = mock.method || "get";
+    return http[method](mock.url, async () => {
+      if (mock.delay) await delay(mock.delay);
+      if (!mock.status) return passthrough();
+      return HttpResponse.json(mock.response, {
+        status: mock.status,
+        statusText: mock.status >= 400 ? `HTTP Error ${mock.status}` : "OK",
+      });
+    });
   }
 }
 

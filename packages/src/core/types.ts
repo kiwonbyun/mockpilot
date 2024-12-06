@@ -12,6 +12,8 @@ export type HttpStatus =
   | 502
   | 503;
 
+export type Subscriber = (mocks: MockState[]) => void;
+
 export interface MockConfig {
   url: string;
   method?: HttpMethod;
@@ -26,6 +28,7 @@ export interface MockState extends MockConfig {
 }
 
 export interface MockMate {
+  subscribe: (subscriber: Subscriber) => void;
   start: () => Promise<void>;
   mock: (config: MockConfig) => void;
   getMocks: () => MockState[];

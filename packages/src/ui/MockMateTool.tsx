@@ -3,6 +3,7 @@ import { HttpMethod, HttpStatus, MockMate, MockState } from "../core/types";
 import { Drawer } from "vaul";
 import MocksList from "./MocksList";
 import Logo from "./Logo";
+import DeleteIcon from "./DeleteIcon";
 
 const METHOD = ["get", "post", "put", "delete", "patch"] as const;
 const RESPONSE_STATUS = [
@@ -24,16 +25,11 @@ function MockMateTools() {
   const [mocks, setMocks] = useState<MockState[]>([]);
   const mocksBadgeCount = mocks.length > 99 ? "99+" : mocks.length;
 
-  const updateMocks = () => {
-    if (mockMateInstance.current) {
-      setMocks(mockMateInstance.current.getMocks());
-    }
-  };
-
   const initMockMate = async () => {
     if (process.env.NODE_ENV === "development") {
       try {
         const { mockmate } = await import("../core/MockMate");
+        mockmate.subscribe((mocks) => setMocks(mocks));
         await mockmate.start();
         mockMateInstance.current = mockmate;
         setIsMount(true);
@@ -61,7 +57,7 @@ function MockMateTools() {
       } catch (e) {
         console.error("Invalid JSON format:", e);
         setError({ field: "response" });
-        // 에러 처리 로직 추가
+
         return;
       }
     }
@@ -74,8 +70,8 @@ function MockMateTools() {
       response: parsedResponse,
     });
     setError({ field: null });
-    updateMocks();
-    // setUrl("");
+    setUrl("");
+    setMockRes("");
   };
 
   const handleReset = () => {
@@ -84,12 +80,6 @@ function MockMateTools() {
     setDelay(0);
     setStatus(null);
     setMockRes("");
-  };
-
-  const handleRemove = (id: string) => {
-    if (!mockMateInstance.current) return;
-    mockMateInstance.current.remove(id);
-    updateMocks();
   };
 
   useEffect(() => {
@@ -208,9 +198,7 @@ function MockMateTools() {
                     Add Mock
                   </button>
                 </div>
-                {!!mocks?.length && (
-                  <MocksList mocks={mocks} handleRemove={handleRemove} />
-                )}
+                {!!mocks?.length && mockMateInstance.current && <MocksList />}
               </section>
             </div>
           </Drawer.Content>

@@ -3,18 +3,21 @@ import { toast } from "@b-origin/ming-toast";
 
 function App() {
   const fakeUrl = "https://fake-api.com/users";
+  const fakeUrl2 = "https://fake-api.com/items";
   const [res, setRes] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleApi = async () => {
+  const handleApi = async (url: string) => {
     try {
-      setLoading(true);
-      const res = await fetch(fakeUrl);
-      const result = await res?.json();
-      if (!result.ok) {
-        throw new Error(result.message);
+      setIsLoading(true);
+      const res = await fetch(url);
+      if (!res.ok) {
+        const errorRes = await res.json();
+        console.error("Error data:", JSON.stringify(errorRes));
+        throw new Error(res.statusText);
       }
-      setRes(JSON.stringify(result.data));
+      const result = await res?.json();
+      setRes(JSON.stringify(result));
       toast("요청 성공!!");
     } catch (err) {
       setRes(null);
@@ -24,23 +27,34 @@ function App() {
         toast("알 수 없는 에러가 발생했습니다.");
       }
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-      }}
-    >
-      <button onClick={handleApi} style={{ width: "200px", height: "200px" }}>
-        {loading ? "loading...." : `가짜 url api 요청`}
-      </button>
-      {!!res && <span>{res}</span>}
+    <div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <button
+          onClick={() => handleApi(fakeUrl)}
+          style={{ width: "200px", height: "200px" }}
+        >
+          가짜 url api 요청
+        </button>
+        <button
+          onClick={() => handleApi(fakeUrl2)}
+          style={{ width: "200px", height: "200px" }}
+        >
+          가짜 url api 요청2
+        </button>
+        {isLoading && <h1>Loading...</h1>}
+        {!!res && <h1>{res}</h1>}
+      </div>
     </div>
   );
 }
