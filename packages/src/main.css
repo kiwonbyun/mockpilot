@@ -187,10 +187,16 @@
   background-color: rgba(255, 160, 122, 0.3);
 }
 
+:where([data-mock-item][data-mock-item-isActive="false"]) {
+  background-color: rgb(51, 51, 51, 0.3);
+  opacity: 0.6;
+}
+
 :where([data-method-badge]) {
   padding: 3px 6px;
   border: var(--button-border);
   border-radius: 4px;
+  cursor: pointer;
 }
 
 :where([data-method-badge][data-method-badge-value="get"]) {
@@ -207,6 +213,10 @@
 }
 :where([data-method-badge][data-method-badge-value="patch"]) {
   background-color: lightslategray;
+}
+
+:where([data-method-badge][data-method-badge-isActive="false"]) {
+  background-color: white;
 }
 
 :where([data-mm-pass-badge]) {
@@ -245,4 +255,5 @@
   display: flex;
   align-items: center;
   gap: 4px;
+  font-size: 14px;
 }

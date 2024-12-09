@@ -133,6 +133,7 @@ function MockMateTools() {
                     type="text"
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
+                    onPointerDown={(e) => e.stopPropagation()}
                   />
                 </div>
                 <div data-mm-label-wrapper>
@@ -174,6 +175,7 @@ function MockMateTools() {
                     disabled={status === null}
                     value={mockRes}
                     onChange={(e) => setMockRes(e.target.value)}
+                    onPointerDown={(e) => e.stopPropagation()}
                   />
                 </div>
                 <div
