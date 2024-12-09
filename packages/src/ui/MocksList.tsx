@@ -9,14 +9,14 @@ function MocksList() {
       {mocks.map((mock) => (
         <li
           data-mock-item
-          data-mock-item-isActive={mock.isActive}
+          data-mock-item-isactive={mock.isActive}
           key={mock.id}
         >
           <div data-mm-gap-box>
             <button
               data-method-badge
               data-method-badge-value={mock.method}
-              data-method-badge-isActive={mock.isActive}
+              data-method-badge-isactive={mock.isActive}
               onClick={() =>
                 mock.isActive
                   ? mockmate.disable(mock.id)

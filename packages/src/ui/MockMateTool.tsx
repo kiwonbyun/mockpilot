@@ -51,7 +51,8 @@ function MockMateTools() {
       try {
         const validJsonString = mockRes
           .replace(/'/g, '"')
-          .replace(/([{,]\s*)(\w+):/g, '$1"$2":');
+          .replace(/([{,]\s*)(\w+):/g, '$1"$2":')
+          .replace(/,(\s*[}\]])/g, "$1");
 
         parsedResponse = JSON.parse(validJsonString);
       } catch (e) {
