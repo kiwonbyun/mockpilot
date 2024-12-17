@@ -3,7 +3,7 @@
   --button-border: 1px solid gainsboro;
 }
 
-:where([data-mm-drawer-trigger]) {
+:is([data-mm-drawer-trigger]) {
   position: fixed;
   bottom: 20px;
   right: 20px;
@@ -16,36 +16,36 @@
   border: none;
   outline: none;
 }
-:where([data-mm-drawer-trigger]:hover) {
+:is([data-mm-drawer-trigger]:hover) {
   opacity: 1;
 }
-:where([data-mm-drawer-trigger][data-mm-open="true"]) {
+:is([data-mm-drawer-trigger][data-mm-open="true"]) {
   visibility: hidden;
 }
-:where([data-mm-drawer-trigger][data-mm-count-badge]) {
+:is([data-mm-drawer-trigger][data-mm-count-badge]) {
   position: absolute;
-  top: 0;
-  right: 2px;
+  top: -2px;
+  right: -4px;
   background-color: red;
   width: 10px;
   height: 10px;
-  padding: 4px;
+  padding: 10px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 10px;
+  font-size: 13px;
   opacity: 1;
 }
 
-:where([data-mm-drawer-overlay]) {
+:is([data-mm-drawer-overlay]) {
   position: fixed;
   inset: 0;
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-:where([data-mm-drawer-content]) {
+:is([data-mm-drawer-content]) {
   position: fixed;
   right: 0.5rem;
   top: 0.5rem;
@@ -56,7 +56,13 @@
   display: flex;
 }
 
-:where([data-mm-drawer-content-wrapper]) {
+:is([data-mm-drawer-title]) {
+  font-size: 20px;
+  margin: 8px 0px;
+  font-weight: 700;
+}
+
+:is([data-mm-drawer-content-wrapper]) {
   background-color: white;
   height: 100%;
   width: 100%;
@@ -64,18 +70,18 @@
   display: flex;
   flex-direction: column;
   border-radius: 16px;
-  padding: 0px 16px;
+  padding: 0px 10px;
 }
 
-:where([data-mm-config-section]) {
+:is([data-mm-config-section]) {
   display: flex;
   flex-direction: column;
   gap: 15px;
   overflow-y: auto;
-  padding: 0px 20px;
+  padding: 0px 10px;
 }
 
-:where([data-mm-method-button]) {
+:is([data-mm-method-button]) {
   background-color: inherit;
   border-radius: 8px;
   padding: 10px 16px;
@@ -83,27 +89,27 @@
   border: 1px solid gainsboro;
 }
 
-:where([data-mm-method-button][data-button-selected="true"]) {
+:is([data-mm-method-button][data-button-selected="true"]) {
   background-color: orange;
   color: black;
 }
 
-:where([data-mm-method-button]:hover) {
+:is([data-mm-method-button]:hover) {
   background-color: orange;
   opacity: 0.5;
 }
 
-:where([data-mm-method-button]:active) {
+:is([data-mm-method-button]:active) {
   transform: translateY(1px);
 }
 
-:where([data-mm-label-wrapper]) {
+:is([data-mm-label-wrapper]) {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-:where([data-mm-label]) {
+:is([data-mm-label]) {
   font-size: 16px;
   font-weight: 700;
   min-width: fit-content;
@@ -112,24 +118,24 @@
   justify-content: space-between;
 }
 
-:where([data-mm-input]) {
+:is([data-mm-input]) {
   padding: 10px 16px;
   border: var(--button-border);
   border-radius: 8px;
   background-color: white;
   font-size: 16px;
 }
-:where([data-mm-input][data-mm-input-error="true"]) {
+:is([data-mm-input][data-mm-input-error="true"]) {
   background-color: rgba(255, 0, 0, 0.2);
 }
 
-:where([data-mm-input]:focus) {
+:is([data-mm-input]:focus) {
   outline: none;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.05),
     0 0 0 2px rgba(255, 165, 0, 0.3), 0 -1px 2px rgba(255, 255, 255, 0.8) inset;
 }
 
-:where([data-mm-textarea]) {
+:is([data-mm-textarea]) {
   padding: 6px 8px;
   border: var(--button-border);
   border-radius: 8px;
@@ -137,38 +143,38 @@
   resize: none;
   height: 150px;
 }
-:where([data-mm-textarea][data-mm-input-error="true"]) {
+:is([data-mm-textarea][data-mm-input-error="true"]) {
   background-color: rgba(255, 0, 0, 0.2);
 }
-:where([data-mm-textarea]:disabled) {
+:is([data-mm-textarea]:disabled) {
   cursor: not-allowed;
   background-color: lightgray;
 }
 
-:where([data-mm-last-button]) {
+:is([data-mm-last-button]) {
   background-color: inherit;
   border: var(--button-border);
   padding: 8px 16px;
   border-radius: 8px;
   font-size: 16px;
 }
-:where([data-mm-submit]) {
+:is([data-mm-submit]) {
   background-color: #2563eb;
   color: white;
 }
-:where([data-mm-last-button]:hover) {
+:is([data-mm-last-button]:hover) {
   opacity: 0.8;
 }
-:where([data-mm-last-button]:active) {
+:is([data-mm-last-button]:active) {
   transform: translateY(1px);
 }
 
-:where([data-mock-list]) {
+:is([data-mock-list]) {
   list-style: none;
   padding: 0px;
 }
 
-:where([data-mm-nested-trigger]) {
+:is([data-mm-nested-trigger]) {
   background-color: inherit;
   font-size: 14px;
   border: var(--button-border);
@@ -176,82 +182,82 @@
   cursor: pointer;
 }
 
-:where([data-mock-item]) {
+:is([data-mock-item]) {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 10px;
   border-bottom: var(--button-border);
 }
-:where([data-mock-item]:hover) {
+:is([data-mock-item]:hover) {
   background-color: rgba(255, 160, 122, 0.3);
 }
 
-:where([data-mock-item][data-mock-item-isActive="false"]) {
+:is([data-mock-item][data-mock-item-isActive="false"]) {
   background-color: rgb(51, 51, 51, 0.3);
   opacity: 0.6;
 }
 
-:where([data-method-badge]) {
+:is([data-method-badge]) {
   padding: 3px 6px;
   border: var(--button-border);
   border-radius: 4px;
   cursor: pointer;
 }
 
-:where([data-method-badge][data-method-badge-value="get"]) {
+:is([data-method-badge][data-method-badge-value="get"]) {
   background-color: lightgreen;
 }
-:where([data-method-badge][data-method-badge-value="post"]) {
+:is([data-method-badge][data-method-badge-value="post"]) {
   background-color: lightblue;
 }
-:where([data-method-badge][data-method-badge-value="delete"]) {
+:is([data-method-badge][data-method-badge-value="delete"]) {
   background-color: lightpink;
 }
-:where([data-method-badge][data-method-badge-value="put"]) {
+:is([data-method-badge][data-method-badge-value="put"]) {
   background-color: lightyellow;
 }
-:where([data-method-badge][data-method-badge-value="patch"]) {
+:is([data-method-badge][data-method-badge-value="patch"]) {
   background-color: lightslategray;
 }
 
-:where([data-method-badge][data-method-badge-isActive="false"]) {
+:is([data-method-badge][data-method-badge-isActive="false"]) {
   background-color: white;
 }
 
-:where([data-mm-pass-badge]) {
+:is([data-mm-pass-badge]) {
   background-color: rgb(100, 231, 100, 0.2);
   border: none;
   padding: 3px 6px;
   border-radius: 4px;
 }
 
-:where([data-mm-success-badge]) {
+:is([data-mm-success-badge]) {
   background-color: rgb(53, 53, 255, 0.2);
   border: none;
   padding: 3px 6px;
   border-radius: 4px;
 }
 
-:where([data-mm-delay-badge]) {
+:is([data-mm-delay-badge]) {
   background-color: rgba(255, 255, 0, 0.2);
   border: none;
   padding: 3px 6px;
   border-radius: 4px;
 }
 
-:where([data-mm-error-badge]) {
+:is([data-mm-error-badge]) {
   background-color: rgba(255, 0, 0, 0.2);
   border: none;
   padding: 3px 6px;
   border-radius: 4px;
 }
-:where([data-mm-delete-badge]) {
+:is([data-mm-delete-badge]) {
   border: none;
   background-color: inherit;
 }
 
-:where([data-mm-gap-box]) {
+:is([data-mm-gap-box]) {
   display: flex;
   align-items: center;
   gap: 4px;

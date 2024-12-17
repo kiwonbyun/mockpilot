@@ -30,12 +30,13 @@ export const useImageDimensions = (images: Photo[]) => {
   useEffect(() => {
     const loadImages = async () => {
       const loadedPhotos = await Promise.all(
-        images.map(async (image) => {
+        images.map(async (image, index) => {
           const dimensions = await getImageDimensions(image.url);
           return {
             ...image,
             width: dimensions.width,
             height: dimensions.height,
+            id: String(index),
           };
         })
       );

@@ -7,14 +7,15 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient({
   defaultOptions: {
-    queries: { retry: 2, refetchOnWindowFocus: false },
+    queries: { retry: 0, refetchOnWindowFocus: false },
   },
 });
 
 createRoot(document.getElementById("root")!).render(
   <QueryClientProvider client={queryClient}>
-    <App />
-    <Toaster position="top-center" />
-    <MockMateTools />
+    <MockMateTools>
+      <App />
+      <Toaster position="top-center" />
+    </MockMateTools>
   </QueryClientProvider>
 );

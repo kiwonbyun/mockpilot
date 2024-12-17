@@ -1,2 +1,2 @@
 import "./main.css";
-export * from "./ui/MockMateTool";
+export * from "./ui/MockMateTools";
