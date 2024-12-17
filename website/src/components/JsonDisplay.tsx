@@ -13,7 +13,7 @@ const JsonDisplay = ({ data }: { data: any }) => {
 
   return (
     <div className="relative">
-      <pre className="bg-gray-100 p-4 overflow-auto h-96">
+      <pre className="bg-gray-100 p-4 overflow-auto h-96 scrollbar">
         <code className="text-sm">{JSON.stringify(data, null, 2)}</code>
       </pre>
       <button
