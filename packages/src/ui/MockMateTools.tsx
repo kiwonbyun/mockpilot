@@ -211,7 +211,13 @@ function MockMateTools({ children }: { children: ReactNode }) {
                       </button>
                     </div>
                     {!!mocks?.length && mockMateInstance.current && (
-                      <MocksList />
+                      <MocksList
+                        setUrl={setUrl}
+                        setMethod={setMethod}
+                        setDelay={setDelay}
+                        setStatus={setStatus}
+                        setMockRes={setMockRes}
+                      />
                     )}
                   </section>
                 </div>

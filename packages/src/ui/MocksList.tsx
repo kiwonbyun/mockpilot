@@ -1,8 +1,33 @@
 import DeleteIcon from "./DeleteIcon";
 import { mockmate } from "../core/MockMate";
+import { Dispatch, SetStateAction } from "react";
+import { HttpMethod, HttpStatus, MockState } from "../core/types";
 
-function MocksList() {
+interface IMockList {
+  setUrl: Dispatch<SetStateAction<string>>;
+  setMethod: Dispatch<SetStateAction<HttpMethod>>;
+  setDelay: Dispatch<SetStateAction<number>>;
+  setStatus: Dispatch<SetStateAction<HttpStatus>>;
+  setMockRes: Dispatch<SetStateAction<string>>;
+}
+
+function MocksList({
+  setUrl,
+  setMethod,
+  setDelay,
+  setStatus,
+  setMockRes,
+}: IMockList) {
   const mocks = mockmate.getMocks();
+
+  const handleClick = (mock: MockState) => {
+    console.log(mock);
+    setUrl(mock.url);
+    setMethod(mock.method as HttpMethod);
+    setDelay(mock.delay);
+    setStatus(mock.status as HttpStatus);
+    setMockRes(JSON.stringify(mock.response));
+  };
 
   return (
     <ul data-mock-list>
@@ -11,17 +36,19 @@ function MocksList() {
           data-mock-item
           data-mock-item-isactive={mock.isActive}
           key={mock.id}
+          onClick={() => handleClick(mock)}
         >
           <div data-mm-gap-box>
             <button
               data-method-badge
               data-method-badge-value={mock.method}
               data-method-badge-isactive={mock.isActive}
-              onClick={() =>
+              onClick={(e) => {
                 mock.isActive
                   ? mockmate.disable(mock.id)
-                  : mockmate.enable(mock.id)
-              }
+                  : mockmate.enable(mock.id);
+                e.stopPropagation();
+              }}
             >
               {mock.method?.toUpperCase()}
             </button>
