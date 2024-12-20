@@ -21,7 +21,6 @@ function MocksList({
   const mocks = mockmate.getMocks();
 
   const handleClick = (mock: MockState) => {
-    console.log(mock);
     setUrl(mock.url);
     setMethod(mock.method as HttpMethod);
     setDelay(mock.delay);

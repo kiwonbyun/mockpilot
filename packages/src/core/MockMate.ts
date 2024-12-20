@@ -2,6 +2,10 @@ import { http, HttpResponse, delay, passthrough } from "msw";
 import { setupWorker } from "msw/browser";
 import type { MockConfig, MockMate, MockState, Subscriber } from "./types";
 
+interface PlaceholderParams {
+  [key: string]: string | undefined;
+}
+
 class MockMateImpl implements MockMate {
   private worker;
   private mocks: Map<string, MockState>;
@@ -122,10 +126,43 @@ class MockMateImpl implements MockMate {
 
   private createHandler(mock: MockState) {
     const method = mock.method || "get";
-    return http[method](mock.url, async () => {
+    return http[method](mock.url, async ({ params, request }) => {
       if (mock.delay) await delay(mock.delay);
       if (!mock.status) return passthrough();
-      return HttpResponse.json(mock.response, {
+
+      const query = Object.fromEntries(new URL(request.url).searchParams);
+
+      const replacePlaceholders = (obj: any): any => {
+        if (typeof obj !== "object") return obj;
+
+        return Object.keys(obj).reduce<Record<string, any>>(
+          (acc, key) => {
+            const value = obj[key];
+
+            if (typeof value === "string") {
+              // URL 파라미터와 쿼리 파라미터 모두 치환
+              acc[key] = value.replace(
+                /\{\{(\w+)\}\}/g,
+                (_, param) =>
+                  (params as PlaceholderParams)[param] ||
+                  (query as PlaceholderParams)[param] ||
+                  ""
+              );
+            } else if (typeof value === "object") {
+              acc[key] = replacePlaceholders(value);
+            } else {
+              acc[key] = value;
+            }
+
+            return acc;
+          },
+          Array.isArray(obj) ? [] : {}
+        );
+      };
+
+      const fixedResponse = replacePlaceholders(mock.response);
+
+      return HttpResponse.json(fixedResponse, {
         status: mock.status,
         statusText: mock.status >= 400 ? `HTTP Error ${mock.status}` : "OK",
       });

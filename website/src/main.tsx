@@ -15,7 +15,7 @@ createRoot(document.getElementById("root")!).render(
   <QueryClientProvider client={queryClient}>
     <MockMateTools>
       <App />
-      <Toaster position="top-center" />
+      <Toaster position="top-right" />
     </MockMateTools>
   </QueryClientProvider>
 );
