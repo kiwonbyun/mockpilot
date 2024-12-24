@@ -1,6 +1,6 @@
 {
-  "name": "mockmate",
-  "version": "0.0.1",
+  "name": "mockpilot",
+  "version": "0.0.4",
   "private": false,
   "main": "dist/index.js",
   "module": "dist/index.mjs",

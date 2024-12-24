@@ -1,12 +1,12 @@
 import { http, HttpResponse, delay, passthrough } from "msw";
 import { setupWorker } from "msw/browser";
-import type { MockConfig, MockMate, MockState, Subscriber } from "./types";
+import type { MockConfig, MockPilot, MockState, Subscriber } from "./types";
 
 interface PlaceholderParams {
   [key: string]: string | undefined;
 }
 
-class MockMateImpl implements MockMate {
+class MockPilotImpl implements MockPilot {
   private worker;
   private mocks: Map<string, MockState>;
   private STORAGE_KEY: string;
@@ -25,7 +25,7 @@ class MockMateImpl implements MockMate {
         .start({ onUnhandledRequest: "bypass" })
         .catch((error) => {
           if (!error.message.includes("redundant")) {
-            console.warn("MockMate initialization warning:", error);
+            console.warn("MockPilot initialization warning:", error);
           }
         });
 
@@ -40,7 +40,7 @@ class MockMateImpl implements MockMate {
         }
       }
     } else {
-      console.warn("MockMate should only be used in development environment");
+      console.warn("MockPilot should only be used in development environment");
     }
   }
 
@@ -170,4 +170,4 @@ class MockMateImpl implements MockMate {
   }
 }
 
-export const mockmate = new MockMateImpl();
+export const mockPilot = new MockPilotImpl();

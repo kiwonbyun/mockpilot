@@ -1,12 +1,11 @@
 {
-  "name": "mockmate",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "build": "pnpm -r build",
     "dev:website": "pnpm --filter website dev",
-    "dev:all": "pnpm --parallel --filter=website --filter=mockmate dev"
+    "dev:all": "pnpm --parallel --filter=website --filter=mockpilot dev"
   },
   "keywords": [],
   "author": "",

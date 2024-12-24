@@ -62,7 +62,7 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.62.3
         version: 5.62.3(react@18.3.1)
-      mockmate:
+      mockpilot:
         specifier: workspace:*
         version: link:../packages
       react:

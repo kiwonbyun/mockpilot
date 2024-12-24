@@ -1,9 +1,55 @@
-:root {
+.mock-pilot {
   --initial-transform: calc(100% + 8px);
   --button-border: 1px solid gainsboro;
+  --border-radius: 4px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-:is([data-mm-drawer-trigger]) {
+.mock-pilot * {
+  font-family: inherit;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+  vertical-align: baseline;
+  line-height: 1;
+}
+
+.mock-pilot button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: none;
+}
+
+.mock-pilot input,
+.mock-pilot textarea {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  outline: none;
+}
+
+.mock-pilot *,
+.mock-pilot *::before,
+.mock-pilot *::after {
+  box-sizing: border-box;
+  border-width: initial;
+  border-style: none;
+  border-color: initial;
+  margin: 0;
+  padding: 0;
+}
+
+.mock-pilot [data-mm-drawer-trigger] {
   position: fixed;
   bottom: 20px;
   right: 20px;
@@ -16,13 +62,13 @@
   border: none;
   outline: none;
 }
-:is([data-mm-drawer-trigger]:hover) {
+.mock-pilot [data-mm-drawer-trigger]:hover {
   opacity: 1;
 }
-:is([data-mm-drawer-trigger][data-mm-open="true"]) {
+.mock-pilot [data-mm-drawer-trigger][data-mm-open="true"] {
   visibility: hidden;
 }
-:is([data-mm-drawer-trigger][data-mm-count-badge]) {
+.mock-pilot [data-mm-drawer-trigger][data-mm-count-badge] {
   position: absolute;
   top: -2px;
   right: -4px;
@@ -56,60 +102,61 @@
   display: flex;
 }
 
-:is([data-mm-drawer-title]) {
+.mock-pilot [data-mm-drawer-title] {
   font-size: 20px;
   margin: 8px 0px;
   font-weight: 700;
 }
 
-:is([data-mm-drawer-content-wrapper]) {
+.mock-pilot [data-mm-drawer-content-wrapper] {
   background-color: white;
   height: 100%;
   width: 100%;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  border-radius: 16px;
+  border-radius: var(--border-radius);
   padding: 0px 10px;
 }
 
-:is([data-mm-config-section]) {
+.mock-pilot [data-mm-config-section] {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 12px;
   overflow-y: auto;
   padding: 0px 10px;
 }
 
-:is([data-mm-method-button]) {
+.mock-pilot [data-mm-method-button] {
   background-color: inherit;
-  border-radius: 8px;
-  padding: 10px 16px;
+  border-radius: var(--border-radius);
+  padding: 8px 16px;
   width: 100%;
   border: 1px solid gainsboro;
+  font-size: 14px;
 }
 
-:is([data-mm-method-button][data-button-selected="true"]) {
+.mock-pilot [data-mm-method-button][data-button-selected="true"] {
   background-color: orange;
   color: black;
 }
 
-:is([data-mm-method-button]:hover) {
+.mock-pilot [data-mm-method-button]:hover {
   background-color: orange;
   opacity: 0.5;
 }
 
-:is([data-mm-method-button]:active) {
+.mock-pilot [data-mm-method-button]:active {
   transform: translateY(1px);
 }
 
-:is([data-mm-label-wrapper]) {
+.mock-pilot [data-mm-label-wrapper] {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-:is([data-mm-label]) {
+.mock-pilot [data-mm-label] {
   font-size: 16px;
   font-weight: 700;
   min-width: fit-content;
@@ -118,146 +165,138 @@
   justify-content: space-between;
 }
 
-:is([data-mm-input]) {
-  padding: 10px 16px;
+.mock-pilot [data-mm-input] {
+  padding: 5px 16px;
   border: var(--button-border);
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   background-color: white;
   font-size: 16px;
 }
-:is([data-mm-input][data-mm-input-error="true"]) {
+.mock-pilot [data-mm-input][data-mm-input-error="true"] {
   background-color: rgba(255, 0, 0, 0.2);
 }
 
-:is([data-mm-input]:focus) {
+.mock-pilot [data-mm-input]:focus {
   outline: none;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.05),
     0 0 0 2px rgba(255, 165, 0, 0.3), 0 -1px 2px rgba(255, 255, 255, 0.8) inset;
 }
 
-:is([data-mm-textarea]) {
+.mock-pilot [data-mm-textarea] {
   padding: 6px 8px;
   border: var(--button-border);
-  border-radius: 8px;
-  font-size: 12px;
+  border-radius: var(--border-radius);
+  font-size: 14px;
   resize: none;
   height: 150px;
 }
-:is([data-mm-textarea][data-mm-input-error="true"]) {
+.mock-pilot [data-mm-textarea][data-mm-input-error="true"] {
   background-color: rgba(255, 0, 0, 0.2);
 }
-:is([data-mm-textarea]:disabled) {
+.mock-pilot [data-mm-textarea]:disabled {
   cursor: not-allowed;
   background-color: lightgray;
 }
 
-:is([data-mm-last-button]) {
+.mock-pilot [data-mm-last-button] {
   background-color: inherit;
   border: var(--button-border);
   padding: 8px 16px;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   font-size: 16px;
 }
-:is([data-mm-submit]) {
+.mock-pilot [data-mm-submit] {
   background-color: #2563eb;
   color: white;
 }
-:is([data-mm-last-button]:hover) {
+.mock-pilot [data-mm-last-button]:hover {
   opacity: 0.8;
 }
-:is([data-mm-last-button]:active) {
+.mock-pilot [data-mm-last-button]:active {
   transform: translateY(1px);
 }
 
-:is([data-mock-list]) {
+.mock-pilot [data-mock-list] {
   list-style: none;
   padding: 0px;
 }
 
-:is([data-mm-nested-trigger]) {
-  background-color: inherit;
-  font-size: 14px;
-  border: var(--button-border);
-  padding: 16px 0px;
-  cursor: pointer;
-}
-
-:is([data-mock-item]) {
+.mock-pilot [data-mock-item] {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px;
+  padding: 5px 10px;
   border-bottom: var(--button-border);
 }
-:is([data-mock-item]:hover) {
+.mock-pilot [data-mock-item]:hover {
   background-color: rgba(255, 160, 122, 0.3);
 }
 
-:is([data-mock-item][data-mock-item-isActive="false"]) {
+.mock-pilot [data-mock-item][data-mock-item-isActive="false"] {
   background-color: rgb(51, 51, 51, 0.3);
   opacity: 0.6;
 }
 
-:is([data-method-badge]) {
+.mock-pilot [data-method-badge] {
   padding: 3px 6px;
   border: var(--button-border);
   border-radius: 4px;
   cursor: pointer;
 }
 
-:is([data-method-badge][data-method-badge-value="get"]) {
+.mock-pilot [data-method-badge][data-method-badge-value="get"] {
   background-color: lightgreen;
 }
-:is([data-method-badge][data-method-badge-value="post"]) {
+.mock-pilot [data-method-badge][data-method-badge-value="post"] {
   background-color: lightblue;
 }
-:is([data-method-badge][data-method-badge-value="delete"]) {
+.mock-pilot [data-method-badge][data-method-badge-value="delete"] {
   background-color: lightpink;
 }
-:is([data-method-badge][data-method-badge-value="put"]) {
+.mock-pilot [data-method-badge][data-method-badge-value="put"] {
   background-color: lightyellow;
 }
-:is([data-method-badge][data-method-badge-value="patch"]) {
+.mock-pilot [data-method-badge][data-method-badge-value="patch"] {
   background-color: lightslategray;
 }
 
-:is([data-method-badge][data-method-badge-isActive="false"]) {
+.mock-pilot [data-method-badge][data-method-badge-isActive="false"] {
   background-color: white;
 }
 
-:is([data-mm-pass-badge]) {
+.mock-pilot [data-mm-pass-badge] {
   background-color: rgb(100, 231, 100, 0.2);
   border: none;
   padding: 3px 6px;
   border-radius: 4px;
 }
 
-:is([data-mm-success-badge]) {
+.mock-pilot [data-mm-success-badge] {
   background-color: rgb(53, 53, 255, 0.2);
   border: none;
   padding: 3px 6px;
   border-radius: 4px;
 }
 
-:is([data-mm-delay-badge]) {
+.mock-pilot [data-mm-delay-badge] {
   background-color: rgba(255, 255, 0, 0.2);
   border: none;
   padding: 3px 6px;
   border-radius: 4px;
 }
 
-:is([data-mm-error-badge]) {
+.mock-pilot [data-mm-error-badge] {
   background-color: rgba(255, 0, 0, 0.2);
   border: none;
   padding: 3px 6px;
   border-radius: 4px;
 }
-:is([data-mm-delete-badge]) {
+.mock-pilot [data-mm-delete-badge] {
   border: none;
   background-color: inherit;
 }
 
-:is([data-mm-gap-box]) {
+.mock-pilot [data-mm-gap-box] {
   display: flex;
   align-items: center;
   gap: 4px;

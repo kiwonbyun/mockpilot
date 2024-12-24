@@ -15,13 +15,13 @@ function GalleryErrorUI({ resetErrorBoundary, error }: FallbackProps) {
           failed.
         </p>
         <p className="text-white">
-          You can resolve this by mocking the API in <b>MOCKMATE</b>.
+          You can resolve this by mocking the API in <b>MOCKPILOT</b>.
         </p>
         <p className="text-white">
-          Please register the mock data below in <b>MOCKMATE</b>.
+          Please register the mock data below in <b>MOCKPILOT</b>.
         </p>
         <p className="text-white">
-          The <b>MOCKMATE</b> tool is in the bottom-right corner of the screen.
+          The <b>MOCKPILOT</b> tool is in the bottom-right corner of the screen.
           Click the icon!
         </p>
       </div>

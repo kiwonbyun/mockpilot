@@ -7,8 +7,9 @@ function App() {
   return (
     <div className="mx-20 flex flex-col gap-5 h-svh">
       <h1 className="text-4xl font-bold text-center mt-3">
-        MockMate Demo Page
+        MockPilot Demo Page
       </h1>
+      <button>asd</button>
       <AsyncBoundary
         loadingFallback={<GallerySkeleton />}
         errorFallback={({ resetErrorBoundary, error }) => (

@@ -1,9 +1,8 @@
 import { ReactNode, useEffect, useRef, useState } from "react";
-import { HttpMethod, HttpStatus, MockMate, MockState } from "../core/types";
+import { HttpMethod, HttpStatus, MockPilot, MockState } from "../core/types";
 import { Drawer } from "vaul";
 import MocksList from "./MocksList";
 import Logo from "./Logo";
-import DeleteIcon from "./DeleteIcon";
 
 const METHOD = ["get", "post", "put", "delete", "patch"] as const;
 const RESPONSE_STATUS = [
@@ -12,8 +11,8 @@ const RESPONSE_STATUS = [
   { label: "Error", status: 400 },
 ];
 
-function MockMateTools({ children }: { children: ReactNode }) {
-  const mockMateInstance = useRef<MockMate | null>(null);
+function MockPilotTools({ children }: { children: ReactNode }) {
+  const mockPilotInstance = useRef<MockPilot | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isMount, setIsMount] = useState<boolean>(false);
   const [url, setUrl] = useState<string>("");
@@ -25,22 +24,22 @@ function MockMateTools({ children }: { children: ReactNode }) {
   const [mocks, setMocks] = useState<MockState[]>([]);
   const mocksBadgeCount = mocks.length > 99 ? "99+" : mocks.length;
 
-  const initMockMate = async () => {
+  const initMockPilot = async () => {
     if (process.env.NODE_ENV === "development") {
       try {
-        const { mockmate } = await import("../core/MockMate");
-        mockmate.subscribe((mocks) => setMocks(mocks));
-        await mockmate.start();
-        mockMateInstance.current = mockmate;
+        const { mockPilot } = await import("../core/MockPilot");
+        mockPilot.subscribe((mocks) => setMocks(mocks));
+        await mockPilot.start();
+        mockPilotInstance.current = mockPilot;
         setIsMount(true);
       } catch (error) {
-        console.error("Failed to initialize MockMate:", error);
+        console.error("Failed to initialize MockPilot:", error);
       }
     }
   };
 
   const handleAddMock = async () => {
-    if (!mockMateInstance.current) return;
+    if (!mockPilotInstance.current) return;
     if (!url.length) {
       setError({ field: "url" });
       return;
@@ -63,7 +62,7 @@ function MockMateTools({ children }: { children: ReactNode }) {
       }
     }
 
-    mockMateInstance.current.mock({
+    mockPilotInstance.current.mock({
       url,
       method,
       delay,
@@ -84,7 +83,7 @@ function MockMateTools({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
-    initMockMate();
+    initMockPilot();
   }, []);
 
   if (!isMount) {
@@ -95,12 +94,8 @@ function MockMateTools({ children }: { children: ReactNode }) {
     <>
       {children}
       {process.env.NODE_ENV === "development" && (
-        <div className="mockmate">
-          <Drawer.Root
-            direction="right"
-            data-drawer-root
-            onOpenChange={setIsOpen}
-          >
+        <div className="mock-pilot">
+          <Drawer.Root direction="right" onOpenChange={setIsOpen}>
             <Drawer.Trigger data-mm-drawer-trigger data-mm-open={isOpen}>
               <Logo isActive={mocks.length > 0} />
               {!!mocksBadgeCount && (
@@ -111,10 +106,10 @@ function MockMateTools({ children }: { children: ReactNode }) {
             </Drawer.Trigger>
             <Drawer.Portal>
               <Drawer.Overlay data-mm-drawer-overlay />
-              <Drawer.Content data-mm-drawer-content>
+              <Drawer.Content data-mm-drawer-content className="mock-pilot">
                 <div data-mm-drawer-content-wrapper>
                   <Drawer.Title data-mm-drawer-title>
-                    MockMate tools
+                    MockPolit tools
                   </Drawer.Title>
                   <section data-mm-config-section>
                     <div data-mm-label-wrapper>
@@ -210,7 +205,7 @@ function MockMateTools({ children }: { children: ReactNode }) {
                         Add Mock
                       </button>
                     </div>
-                    {!!mocks?.length && mockMateInstance.current && (
+                    {!!mocks?.length && mockPilotInstance.current && (
                       <MocksList
                         setUrl={setUrl}
                         setMethod={setMethod}
@@ -230,4 +225,4 @@ function MockMateTools({ children }: { children: ReactNode }) {
   );
 }
 
-export { MockMateTools };
+export { MockPilotTools };

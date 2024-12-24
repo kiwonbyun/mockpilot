@@ -1,5 +1,5 @@
 import DeleteIcon from "./DeleteIcon";
-import { mockmate } from "../core/MockMate";
+import { mockPilot } from "../core/MockPilot";
 import { Dispatch, SetStateAction } from "react";
 import { HttpMethod, HttpStatus, MockState } from "../core/types";
 
@@ -18,7 +18,7 @@ function MocksList({
   setStatus,
   setMockRes,
 }: IMockList) {
-  const mocks = mockmate.getMocks();
+  const mocks = mockPilot.getMocks();
 
   const handleClick = (mock: MockState) => {
     setUrl(mock.url);
@@ -44,8 +44,8 @@ function MocksList({
               data-method-badge-isactive={mock.isActive}
               onClick={(e) => {
                 mock.isActive
-                  ? mockmate.disable(mock.id)
-                  : mockmate.enable(mock.id);
+                  ? mockPilot.disable(mock.id)
+                  : mockPilot.enable(mock.id);
                 e.stopPropagation();
               }}
             >
@@ -65,7 +65,7 @@ function MocksList({
             <button
               data-mm-delete-badge
               style={{ cursor: "pointer" }}
-              onClick={() => mockmate.remove(mock.id)}
+              onClick={() => mockPilot.remove(mock.id)}
             >
               <DeleteIcon />
             </button>

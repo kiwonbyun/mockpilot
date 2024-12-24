@@ -27,7 +27,7 @@ export interface MockState extends MockConfig {
   isActive: boolean;
 }
 
-export interface MockMate {
+export interface MockPilot {
   subscribe: (subscriber: Subscriber) => void;
   start: () => Promise<void>;
   mock: (config: MockConfig) => void;
