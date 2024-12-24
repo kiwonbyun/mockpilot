@@ -35,6 +35,8 @@ function MockPilotTools({ children }: { children: ReactNode }) {
       } catch (error) {
         console.error("Failed to initialize MockPilot:", error);
       }
+    } else {
+      setIsMount(true);
     }
   };
 

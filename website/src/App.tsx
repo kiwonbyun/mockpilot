@@ -9,7 +9,6 @@ function App() {
       <h1 className="text-4xl font-bold text-center mt-3">
         MockPilot Demo Page
       </h1>
-      <button>asd</button>
       <AsyncBoundary
         loadingFallback={<GallerySkeleton />}
         errorFallback={({ resetErrorBoundary, error }) => (

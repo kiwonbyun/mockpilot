@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "NODE_ENV=development tsc -b && NODE_ENV=development vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -13,7 +13,7 @@
     "@b-origin/ming-toast": "^1.2.7",
     "@radix-ui/react-aspect-ratio": "^1.1.0",
     "@tanstack/react-query": "^5.62.3",
-    "mockpilot": "workspace:* || ^0.0.1",
+    "mockpilot": "workspace:* || ^0.0.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-error-boundary": "^4.1.2",
