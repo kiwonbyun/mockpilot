@@ -3,6 +3,7 @@ import { HttpMethod, HttpStatus, MockPilot, MockState } from "../core/types";
 import { Drawer } from "vaul";
 import MocksList from "./MocksList";
 import Logo from "./Logo";
+import JsonEditor from "./JsonEditor";
 
 const METHOD = ["get", "post", "put", "delete", "patch"] as const;
 const RESPONSE_STATUS = [
@@ -19,10 +20,11 @@ function MockPilotTools({ children }: { children: ReactNode }) {
   const [method, setMethod] = useState<HttpMethod>("get");
   const [delay, setDelay] = useState<number>(0);
   const [status, setStatus] = useState<HttpStatus>(null);
-  const [mockRes, setMockRes] = useState<string>("");
+  const [mockRes, setMockRes] = useState<string>('{ "key": "name" }');
   const [error, setError] = useState<{ field: string | null }>({ field: null });
   const [mocks, setMocks] = useState<MockState[]>([]);
   const mocksBadgeCount = mocks.length > 99 ? "99+" : mocks.length;
+  const responseBodyError = useRef(false);
 
   const initMockPilot = async () => {
     if (process.env.NODE_ENV === "development") {
@@ -47,21 +49,9 @@ function MockPilotTools({ children }: { children: ReactNode }) {
       return;
     }
 
-    let parsedResponse = "";
-    if (mockRes.length) {
-      try {
-        const validJsonString = mockRes
-          .replace(/'/g, '"')
-          .replace(/([{,]\s*)(\w+):/g, '$1"$2":')
-          .replace(/,(\s*[}\]])/g, "$1");
-
-        parsedResponse = JSON.parse(validJsonString);
-      } catch (e) {
-        console.error("Invalid JSON format:", e);
-        setError({ field: "response" });
-
-        return;
-      }
+    if (responseBodyError.current) {
+      setError({ field: "responseBody" });
+      return;
     }
 
     mockPilotInstance.current.mock({
@@ -69,7 +59,7 @@ function MockPilotTools({ children }: { children: ReactNode }) {
       method,
       delay,
       status,
-      response: parsedResponse,
+      response: JSON.parse(mockRes),
     });
     setError({ field: null });
     setUrl("");
@@ -130,13 +120,19 @@ function MockPilotTools({ children }: { children: ReactNode }) {
                       </div>
                     </div>
                     <div data-mm-label-wrapper>
-                      <label data-mm-label htmlFor="endpoint">
-                        Endpoint URL
+                      <label
+                        data-mm-label
+                        data-mm-label-error={error.field === "url"}
+                        htmlFor="endpoint"
+                      >
+                        Endpoint URL{" "}
+                        {error.field === "url" && (
+                          <span>Invalid input value</span>
+                        )}
                       </label>
                       <input
                         id="endpoint"
                         data-mm-input
-                        data-mm-input-error={error.field === "url"}
                         type="text"
                         value={url}
                         onChange={(e) => setUrl(e.target.value)}
@@ -174,15 +170,19 @@ function MockPilotTools({ children }: { children: ReactNode }) {
                       </div>
                     </div>
                     <div data-mm-label-wrapper>
-                      <label data-mm-label>Response Body</label>
-                      <textarea
-                        data-mm-textarea
-                        data-mm-input-error={error.field === "response"}
-                        placeholder='{ key: "value" }'
-                        disabled={status === null}
+                      <label
+                        data-mm-label
+                        data-mm-label-error={error.field === "responseBody"}
+                      >
+                        Response Body
+                        {error.field === "responseBody" && (
+                          <span>Invalid input value</span>
+                        )}
+                      </label>
+                      <JsonEditor
                         value={mockRes}
-                        onChange={(e) => setMockRes(e.target.value)}
-                        onPointerDown={(e) => e.stopPropagation()}
+                        onChange={(value) => setMockRes(value ?? "")}
+                        onError={(value) => (responseBodyError.current = value)}
                       />
                     </div>
                     <div

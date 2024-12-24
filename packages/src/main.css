@@ -165,15 +165,16 @@
   justify-content: space-between;
 }
 
+.mock-pilot [data-mm-label][data-mm-label-error="true"] {
+  color: red;
+}
+
 .mock-pilot [data-mm-input] {
   padding: 5px 16px;
   border: var(--button-border);
   border-radius: var(--border-radius);
   background-color: white;
   font-size: 16px;
-}
-.mock-pilot [data-mm-input][data-mm-input-error="true"] {
-  background-color: rgba(255, 0, 0, 0.2);
 }
 
 .mock-pilot [data-mm-input]:focus {
@@ -190,9 +191,7 @@
   resize: none;
   height: 150px;
 }
-.mock-pilot [data-mm-textarea][data-mm-input-error="true"] {
-  background-color: rgba(255, 0, 0, 0.2);
-}
+
 .mock-pilot [data-mm-textarea]:disabled {
   cursor: not-allowed;
   background-color: lightgray;
