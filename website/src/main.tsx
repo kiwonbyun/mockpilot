@@ -13,7 +13,7 @@ const queryClient = new QueryClient({
 
 createRoot(document.getElementById("root")!).render(
   <QueryClientProvider client={queryClient}>
-    <MockPilotTools forceRun>
+    <MockPilotTools>
       <App />
       <Toaster position="top-right" />
     </MockPilotTools>
