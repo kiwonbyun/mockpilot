@@ -59,7 +59,7 @@ function MockPilotTools({ children }: { children: ReactNode }) {
       method,
       delay,
       status,
-      response: JSON.parse(mockRes),
+      response: JSON.parse(mockRes || "{}"),
     });
     setError({ field: null });
     setUrl("");

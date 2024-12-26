@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "NODE_ENV=development tsc -b && NODE_ENV=development vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy:website": "pnpm build && aws s3 sync dist/ s3://mock-pilot-demo"
   },
   "dependencies": {
     "@b-origin/ming-toast": "^1.2.7",
