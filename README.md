@@ -7,7 +7,7 @@ MockPilot is a developer-friendly API mocking tool built on top of [MSW (Mock Se
 - 🎯 Easy-to-use UI for API mocking
 - 💾 Automatic persistence of mocks across page reloads
 - ⏱️ Configurable response delays
-- 🔄 Support for multiple HTTP methods (GET, POST, PUT, DELETE, PATCH)
+- 🔄 Support for multiple HTTP methods (`GET`, `POST`, `PUT`, `DELETE`, `PATCH`)
 - 🎨 JSON editor with syntax highlighting
 - 🔌 Pass-through mode for selective mocking
 - 📝 Dynamic response templating with URL parameters
@@ -82,7 +82,7 @@ You might encounter SSR-related issues. You can find solutions in this GitHub is
 
 ## Mock Configuration
 
-- **Method**: Select HTTP method (GET, POST, PUT, DELETE, PATCH)
+- **Method**: Select HTTP method (`GET`, `POST`, `PUT`, `DELETE`, `PATCH`)
 - **Endpoint URL**: Enter the API endpoint to mock
 - **Response Delay**: Simulate network latency (0-5000ms)
 - **Response Status**: Choose between Pass Through, Success (200), or Error (400)
