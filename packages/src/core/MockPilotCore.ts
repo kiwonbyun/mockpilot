@@ -1,7 +1,7 @@
 import { EventEmitter, MockPilotEvent } from "./EventEmitter";
 import { MSWManager } from "./MSWManager";
 import { StorageManager } from "./StorageManager";
-import { Handler, MockPilotOptions } from "./types";
+import { Handler } from "./types";
 
 export class MockPilotCore {
   private static instance: MockPilotCore | null = null;
@@ -13,7 +13,7 @@ export class MockPilotCore {
   private storageManager: StorageManager;
   private mswManager: MSWManager;
 
-  private constructor(options: MockPilotOptions) {
+  private constructor() {
     this.isDevelopment = this.checkIsDevelopment();
     this.isInitialized = false;
     this.eventEmitter = new EventEmitter();
@@ -21,9 +21,9 @@ export class MockPilotCore {
     this.mswManager = new MSWManager(this);
   }
 
-  public static getInstance(options: MockPilotOptions): MockPilotCore {
+  public static getInstance(): MockPilotCore {
     if (!MockPilotCore.instance) {
-      MockPilotCore.instance = new MockPilotCore(options);
+      MockPilotCore.instance = new MockPilotCore();
     }
     return MockPilotCore.instance;
   }
@@ -171,5 +171,5 @@ function createNoopMockPilot(): MockPilotCore {
 
 export const mockPilot =
   process.env.NODE_ENV !== "production"
-    ? MockPilotCore.getInstance({})
+    ? MockPilotCore.getInstance()
     : createNoopMockPilot();
