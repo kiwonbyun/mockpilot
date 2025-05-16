@@ -1,5 +1,1 @@
-import React from "react";
-
-export const HelloWorld = ({ name }: { name: string }) => {
-  return <span>Hello {name}</span>;
-};
+export { MockPilotProvider as MockPilot } from "./ui/MockPilotProvider";

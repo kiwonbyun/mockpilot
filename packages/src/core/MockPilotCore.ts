@@ -42,7 +42,7 @@ export class MockPilotCore {
     }
   }
 
-  public init(): void {
+  public async init(): Promise<void> {
     if (!this.isDevelopment) {
       console.debug("MockPilot is disabled in production environment");
       return;
@@ -61,7 +61,7 @@ export class MockPilotCore {
 
     this.mswManager.setupWorker();
     this.mswManager.registerHandlers(this.handlers);
-    this.mswManager.start();
+    await this.mswManager.start();
     this.isInitialized = true;
     this.eventEmitter.emit(MockPilotEvent.INITIALIZED);
   }

@@ -2,6 +2,7 @@
 
 import React from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { MockPilot } from "mockpilot";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = React.useState(() => new QueryClient());
@@ -15,6 +16,8 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   });
 
   return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <MockPilot>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    </MockPilot>
   );
 }
