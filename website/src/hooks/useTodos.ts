@@ -7,15 +7,12 @@ const API_URL = "https://fake-server.com/todo";
 // API 호출 함수들
 async function fetchTodos(): Promise<Todo[]> {
   const response = await fetch(API_URL);
+
   if (!response.ok) {
     throw new Error("Network response was not ok while fetching todos");
   }
-  // 실제 서버가 없으므로, 다음은 예시입니다.
-  // return response.json();
-  console.warn(
-    "fetchTodos: Fake API call, returning empty array. Uncomment and adjust when real API is available."
-  );
-  return []; // 실제 서버 연결 전까지 빈 배열 반환
+
+  return response.json();
 }
 
 async function addTodoAPI(newTodoText: string): Promise<Todo> {
@@ -29,12 +26,8 @@ async function addTodoAPI(newTodoText: string): Promise<Todo> {
   if (!response.ok) {
     throw new Error("Network response was not ok while adding todo");
   }
-  // 실제 서버가 없으므로, 다음은 예시입니다.
-  // return response.json();
-  console.warn(
-    "addTodoAPI: Fake API call, returning placeholder. Uncomment and adjust when real API is available."
-  );
-  return { id: Date.now(), text: newTodoText, completed: false }; // 실제 서버 연결 전까지 임시 반환
+
+  return response.json();
 }
 
 async function updateTodoAPI(
@@ -99,6 +92,9 @@ export function useTodos() {
       // queryClient.setQueryData<Todo[]>(['todos'], (oldTodos = []) => [...oldTodos, newTodo]);
       // Optimistic update 방법 2: 서버에서 전체 목록을 다시 가져오도록 무효화 (더 간단)
       queryClient.invalidateQueries({ queryKey: ["todos"] });
+    },
+    onError: (error) => {
+      window.alert("Failed to add todo: " + error.message);
     },
   });
 
