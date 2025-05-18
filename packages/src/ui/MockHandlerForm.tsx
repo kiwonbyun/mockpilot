@@ -2,6 +2,7 @@ import { useState } from "react";
 import { mockPilot } from "../core/MockPilotCore";
 import { Handler } from "../core/types";
 import Editor from "@monaco-editor/react";
+import isUrl from "is-url";
 
 interface MockHandlerFormProps {
   onClose: () => void;
@@ -78,22 +79,6 @@ export const MockHandlerForm = ({
     }
   };
 
-  // Handle JSON response change
-  const handleResponseChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setResponseText(e.target.value);
-    setResponseError("");
-
-    try {
-      const parsed = JSON.parse(e.target.value);
-      setFormData({
-        ...formData,
-        response: parsed,
-      });
-    } catch (err) {
-      setResponseError("Invalid JSON format");
-    }
-  };
-
   // Handle Monaco Editor content change
   const handleEditorChange = (value: string | undefined) => {
     const newValue = value || "";
@@ -133,6 +118,10 @@ export const MockHandlerForm = ({
 
     if (!formData.url?.trim()) {
       newErrors.url = "URL is required";
+    }
+
+    if (formData.url && !isUrl(formData.url)) {
+      newErrors.url = "Invalid URL";
     }
 
     if (!formData.method?.trim()) {
