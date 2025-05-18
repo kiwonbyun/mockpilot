@@ -3,6 +3,9 @@ import { mockPilot } from "../core/MockPilotCore";
 import { Handler } from "../core/types";
 import Editor from "@monaco-editor/react";
 import isUrl from "is-url";
+import Button from "../components/Button";
+import Label from "../components/Label";
+import Text from "../components/Text";
 
 interface MockHandlerFormProps {
   onClose: () => void;
@@ -209,16 +212,9 @@ export const MockHandlerForm = ({
         <form onSubmit={handleSubmit}>
           {/* URL */}
           <div style={{ marginBottom: "1rem" }}>
-            <label
-              htmlFor="url"
-              style={{
-                display: "block",
-                marginBottom: "0.5rem",
-                fontWeight: "500",
-              }}
-            >
-              URL Pattern *
-            </label>
+            <Label htmlFor="url" required>
+              URL Pattern
+            </Label>
             <input
               id="url"
               name="url"
@@ -233,42 +229,19 @@ export const MockHandlerForm = ({
                 border: errors.url ? "1px solid #f56565" : "1px solid #e2e8f0",
               }}
             />
-            {errors.url && (
-              <p
-                style={{
-                  color: "#f56565",
-                  fontSize: "0.875rem",
-                  marginTop: "0.25rem",
-                }}
-              >
-                {errors.url}
-              </p>
-            )}
-            <p
-              style={{
-                fontSize: "0.75rem",
-                color: "#718096",
-                marginTop: "0.25rem",
-              }}
-            >
+            {errors.url && <Text variant="error">{errors.url}</Text>}
+            <Text variant="description">
               Supports MSW URL pattern matching (e.g. /api/users,
               /api/users/:id)
-            </p>
+            </Text>
           </div>
 
           {/* Method and Status */}
           <div style={{ display: "flex", gap: "1rem", marginBottom: "1rem" }}>
             <div style={{ flex: 1 }}>
-              <label
-                htmlFor="method"
-                style={{
-                  display: "block",
-                  marginBottom: "0.5rem",
-                  fontWeight: "500",
-                }}
-              >
-                HTTP Method *
-              </label>
+              <Label htmlFor="method" required>
+                HTTP Method
+              </Label>
               <select
                 id="method"
                 name="method"
@@ -291,30 +264,11 @@ export const MockHandlerForm = ({
                 <option value="OPTIONS">OPTIONS</option>
                 <option value="HEAD">HEAD</option>
               </select>
-              {errors.method && (
-                <p
-                  style={{
-                    color: "#f56565",
-                    fontSize: "0.875rem",
-                    marginTop: "0.25rem",
-                  }}
-                >
-                  {errors.method}
-                </p>
-              )}
+              {errors.method && <Text variant="error">{errors.method}</Text>}
             </div>
 
             <div style={{ flex: 1 }}>
-              <label
-                htmlFor="status"
-                style={{
-                  display: "block",
-                  marginBottom: "0.5rem",
-                  fontWeight: "500",
-                }}
-              >
-                Status Code
-              </label>
+              <Label htmlFor="status">Status Code</Label>
               <input
                 id="status"
                 name="status"
@@ -341,16 +295,7 @@ export const MockHandlerForm = ({
             }}
           >
             <div style={{ flex: 1 }}>
-              <label
-                htmlFor="delay"
-                style={{
-                  display: "block",
-                  marginBottom: "0.5rem",
-                  fontWeight: "500",
-                }}
-              >
-                Delay (ms)
-              </label>
+              <Label htmlFor="delay">Delay (ms)</Label>
               <input
                 id="delay"
                 name="delay"
@@ -388,16 +333,7 @@ export const MockHandlerForm = ({
 
           {/* Description */}
           <div style={{ marginBottom: "1rem" }}>
-            <label
-              htmlFor="description"
-              style={{
-                display: "block",
-                marginBottom: "0.5rem",
-                fontWeight: "500",
-              }}
-            >
-              Description
-            </label>
+            <Label htmlFor="description">Description</Label>
             <input
               id="description"
               name="description"
@@ -416,16 +352,7 @@ export const MockHandlerForm = ({
 
           {/* Response */}
           <div style={{ marginBottom: "1.5rem" }}>
-            <label
-              htmlFor="response"
-              style={{
-                display: "block",
-                marginBottom: "0.5rem",
-                fontWeight: "500",
-              }}
-            >
-              Response JSON
-            </label>
+            <Label htmlFor="response">Response JSON</Label>
             <Editor
               height="200px"
               language="json"
@@ -444,49 +371,17 @@ export const MockHandlerForm = ({
                 automaticLayout: true,
               }}
             />
-            {responseError && (
-              <p
-                style={{
-                  color: "#f56565",
-                  fontSize: "0.875rem",
-                  marginTop: "0.25rem",
-                }}
-              >
-                {responseError}
-              </p>
-            )}
+            {responseError && <Text variant="error">{responseError}</Text>}
           </div>
 
           {/* Form actions */}
           <div
             style={{ display: "flex", justifyContent: "flex-end", gap: "1rem" }}
           >
-            <button
-              type="button"
-              onClick={onClose}
-              style={{
-                padding: "0.5rem 1rem",
-                borderRadius: "4px",
-                border: "1px solid #e2e8f0",
-                backgroundColor: "white",
-                cursor: "pointer",
-              }}
-            >
+            <Button type="button" onClick={onClose} variant="secondary">
               Cancel
-            </button>
-            <button
-              type="submit"
-              style={{
-                padding: "0.5rem 1rem",
-                borderRadius: "4px",
-                border: "none",
-                backgroundColor: "#3182ce",
-                color: "white",
-                cursor: "pointer",
-              }}
-            >
-              {isEditing ? "Update" : "Create"}
-            </button>
+            </Button>
+            <Button type="submit">{isEditing ? "Update" : "Create"}</Button>
           </div>
         </form>
       </div>

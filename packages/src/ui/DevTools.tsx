@@ -4,9 +4,7 @@ import { mockPilot } from "../core/MockPilotCore";
 import { Handler } from "../core/types";
 import MockHandlerForm from "./MockHandlerForm";
 import useKeyPress from "../hooks/useKeyPress";
-
-// Note: vaul library will need to be installed
-// import { Drawer } from "vaul";
+import Button from "../components/Button";
 
 interface DevToolsProps {
   defaultOpen?: boolean;
@@ -32,11 +30,8 @@ export const DevTools = ({
   });
 
   useEffect(() => {
-    // Initialize handlers
-    console.log(mockPilot.getHandlers());
     setHandlers(mockPilot.getHandlers());
 
-    // Subscribe to handler changes
     const unsubscribe = mockPilot.on(MockPilotEvent.HANDLER_CHANGED, () => {
       setHandlers(mockPilot.getHandlers());
     });
@@ -171,32 +166,13 @@ export const DevTools = ({
           <h2 style={{ margin: 0, fontSize: "1.25rem", fontWeight: "bold" }}>
             MockPilot
           </h2>
-          <div>
-            <button
-              onClick={resetHandlers}
-              style={{
-                marginRight: "1rem",
-                padding: "0.5rem",
-                border: "none",
-                background: "none",
-                cursor: "pointer",
-                color: "#718096",
-              }}
-            >
+          <div style={{ display: "flex", gap: "0.5rem" }}>
+            <Button onClick={resetHandlers} variant="secondary">
               Reset
-            </button>
-            <button
-              onClick={() => setIsOpen(false)}
-              style={{
-                padding: "0.5rem",
-                border: "none",
-                background: "none",
-                cursor: "pointer",
-                color: "#718096",
-              }}
-            >
+            </Button>
+            <Button onClick={() => setIsOpen(false)} variant="secondary">
               Close
-            </button>
+            </Button>
           </div>
         </div>
 
