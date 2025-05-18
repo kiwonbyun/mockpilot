@@ -44,6 +44,7 @@ export class MockPilotCore {
 
   public async init(): Promise<void> {
     if (!this.isDevelopment) {
+      console.log("hite");
       console.debug("MockPilot is disabled in production environment");
       return;
     }
@@ -156,15 +157,27 @@ export class MockPilotCore {
 
 function createNoopMockPilot(): MockPilotCore {
   const noop = () => {};
+  let initializedListener: (() => void) | null = null;
+
   return {
-    init: noop,
+    init: () => {
+      // If a listener for INITIALIZED was registered, call it.
+      if (initializedListener) {
+        initializedListener();
+      }
+    },
     addHandler: () => "",
     removeHandler: noop,
     updateHandler: noop,
     getHandlers: () => [],
     reset: noop,
     cleanup: noop,
-    on: () => noop,
+    on: (event: MockPilotEvent, listener: (...args: any[]) => void) => {
+      if (event === MockPilotEvent.INITIALIZED) {
+        initializedListener = listener as () => void;
+      }
+      return noop; // Return a noop unsubscribe function
+    },
     isDevEnvironment: () => false,
   } as unknown as MockPilotCore;
 }

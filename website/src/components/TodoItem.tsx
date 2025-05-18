@@ -1,3 +1,4 @@
+import { useTransition } from "react";
 import type { Todo } from "../types/todo";
 
 interface TodoItemProps {
@@ -5,9 +6,9 @@ interface TodoItemProps {
   isEditing: boolean;
   editText: string;
   onToggleComplete: () => void;
-  onDelete: (id: number) => void;
+  onDelete: (id: number) => Promise<number>;
   onStartEdit: (todo: Todo) => void;
-  onSaveEdit: (id: number) => void;
+  onSaveEdit: (id: number) => Promise<void>;
   onCancelEdit: () => void;
   onEditTextChange: (text: string) => void;
 }
@@ -23,6 +24,28 @@ export default function TodoItem({
   onCancelEdit,
   onEditTextChange,
 }: TodoItemProps) {
+  const [isPending, startTransition] = useTransition();
+
+  const handleDelete = async (id: number) => {
+    try {
+      startTransition(async () => {
+        await onDelete(id);
+      });
+    } catch (err) {
+      window.alert("Failed to delete todo: " + err);
+    }
+  };
+
+  const handleSave = async (id: number) => {
+    try {
+      startTransition(async () => {
+        await onSaveEdit(id);
+      });
+    } catch (err) {
+      window.alert("Failed to save todo: " + err);
+    }
+  };
+
   return (
     <li
       className={`flex items-center justify-between p-4 rounded-md shadow hover:shadow-lg transition-shadow ${
@@ -46,8 +69,9 @@ export default function TodoItem({
           />
           <div className="ml-2 flex-shrink-0">
             <button
-              onClick={() => onSaveEdit(todo.id)}
-              className="mr-1 bg-green-500 text-white px-3 py-1 rounded-md hover:bg-green-600 transition-colors text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+              onClick={() => handleSave(todo.id)}
+              disabled={isPending}
+              className="mr-1 bg-green-500 text-white px-3 py-1 rounded-md hover:bg-green-600 transition-colors text-sm focus:outline-none focus:ring-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Save
             </button>
@@ -77,9 +101,10 @@ export default function TodoItem({
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                onDelete(todo.id);
+                handleDelete(todo.id);
               }}
-              className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition-colors text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+              disabled={isPending}
+              className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition-colors text-sm focus:outline-none focus:ring-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Delete
             </button>

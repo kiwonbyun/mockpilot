@@ -16,7 +16,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   });
 
   return (
-    <MockPilot>
+    <MockPilot defaultOpen={false}>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </MockPilot>
   );

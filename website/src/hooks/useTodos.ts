@@ -87,10 +87,7 @@ export function useTodos() {
 
   const addTodoMutation = useMutation<Todo, Error, string>({
     mutationFn: addTodoAPI,
-    onSuccess: (newTodo) => {
-      // Optimistic update 방법 1: 반환된 새 todo를 직접 캐시에 추가
-      // queryClient.setQueryData<Todo[]>(['todos'], (oldTodos = []) => [...oldTodos, newTodo]);
-      // Optimistic update 방법 2: 서버에서 전체 목록을 다시 가져오도록 무효화 (더 간단)
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todos"] });
     },
     onError: (error) => {
@@ -125,9 +122,9 @@ export function useTodos() {
   });
 
   const addTodo = useCallback(
-    (text: string) => {
+    async (text: string) => {
       if (text.trim() === "") return;
-      addTodoMutation.mutate(text.trim());
+      await addTodoMutation.mutateAsync(text.trim());
     },
     [addTodoMutation]
   );
@@ -148,12 +145,14 @@ export function useTodos() {
   );
 
   const deleteTodo = useCallback(
-    (id: number) => {
-      deleteTodoMutation.mutate(id);
+    async (id: number) => {
+      await deleteTodoMutation.mutateAsync(id);
+
       if (editingTodoId === id) {
         setEditingTodoId(null);
         setEditText("");
       }
+      return id;
     },
     [deleteTodoMutation, editingTodoId]
   );
@@ -164,14 +163,14 @@ export function useTodos() {
   }, []);
 
   const saveEdit = useCallback(
-    (id: number) => {
+    async (id: number) => {
       if (editText.trim() === "") {
-        deleteTodoMutation.mutate(id); // 텍스트가 비면 삭제
+        await deleteTodoMutation.mutateAsync(id); // 텍스트가 비면 삭제
         setEditingTodoId(null);
         setEditText("");
         return;
       }
-      updateTodoMutation.mutate({ id, text: editText.trim() });
+      await updateTodoMutation.mutateAsync({ id, text: editText.trim() });
       // 성공 시 onSuccess에서 editingTodoId 등이 초기화됩니다.
     },
     [editText, updateTodoMutation, deleteTodoMutation]

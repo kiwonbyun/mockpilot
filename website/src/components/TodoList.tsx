@@ -10,9 +10,9 @@ interface TodoListProps {
     currentCompleted: boolean,
     currentText: string
   ) => void;
-  onDelete: (id: number) => void;
+  onDelete: (id: number) => Promise<number>;
   onStartEdit: (todo: Todo) => void;
-  onSaveEdit: (id: number) => void;
+  onSaveEdit: (id: number) => Promise<void>;
   onCancelEdit: () => void;
   onEditTextChange: (text: string) => void;
 }

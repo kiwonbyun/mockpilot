@@ -15,6 +15,7 @@ export const MockPilotProvider = ({
   position = "bottom-right",
 }: MockPilotProviderProps) => {
   const [isInitialized, setIsInitialized] = useState(false);
+  const isDev = process.env.NODE_ENV === "development";
 
   useEffect(() => {
     const unsubscribe = mockPilot.on(MockPilotEvent.INITIALIZED, () => {
@@ -34,7 +35,7 @@ export const MockPilotProvider = ({
   return (
     <>
       {children}
-      <DevTools defaultOpen={defaultOpen} position={position} />
+      {isDev && <DevTools defaultOpen={defaultOpen} position={position} />}
     </>
   );
 };
